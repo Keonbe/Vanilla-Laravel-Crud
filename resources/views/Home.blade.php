@@ -3,80 +3,143 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Laravel CRUD Application</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
     @auth 
     <!-- Check if user is authenticated -->
-    <h1>Welcome, {{ auth()->user()->name }}!</h1>
-    <form action="/logout" method="POST">
-        @csrf
-        <button type="submit">Logout</button>
-    </form>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">Laravel CRUD</span>
+            <div class="d-flex align-items-center">
+                <span class="text-light me-3">Welcome, {{ auth()->user()->name }}!</span>
+                <form action="/logout" method="POST" class="m-0">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-light">Logout</button>
+                </form>
+            </div>
+        </div>
+    </nav>
 
-    <div style="text-align: center; border: 2px solid black;">
-        <h1>CRUD Operations</h1>
-        <br>
-        <h2>Create Record</h2>
-        <form action="/create-post" method="POST">
-            @csrf 
-            <!-- CSRF token for security  -->
-            <input type="text" name="title" placeholder="Enter Title">
-            <input type="text" name="body" placeholder="Enter Body Content">
-            <button type="submit">Create Record</button>
-        </form>
-
-        <br><br>
-        <h2>View Records</h2>
-        <form action="/records" method="GET">
-            <button type="submit">View All Records</button>
-        </form>
-    </div>
-
-    <div style="margin-top: 20px; color: black;">
-        <h2>All Posts</h2>
-        @if(isset($posts) && $posts->isNotEmpty())
-            @foreach($posts as $post)
-                <div style="border: 1px solid black; padding: 10px; margin-bottom: 10px;">
-                    <strong>{{ $post->title }}</strong> by {{ optional($post->user)->name ?? 'Unknown' }}
-                    <p>{{ $post->body }}</p>
-                    <p> <a href="/edit-post/{{ $post->id }}">Edit Post</a> </p>
-                    <form action="/delete-post/{{ $post->id }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this post?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit">Delete Post</button>
+    <div class="container py-5">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="card-title mb-0">Create New Post</h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="/create-post" method="POST">
+                            @csrf 
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Title</label>
+                                <input type="text" class="form-control" id="title" name="title" placeholder="Enter post title" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="body" class="form-label">Content</label>
+                                <textarea class="form-control" id="body" name="body" rows="4" placeholder="Enter post content" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Create Record</button>
+                        </form>
+                    </div>
                 </div>
-            @endforeach
-        @else
-            <p>No posts found.</p>
-        @endif
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h3 class="card-title mb-0">All Posts</h3>
+                    </div>
+                    <div class="card-body">
+                        @if(isset($posts) && $posts->isNotEmpty())
+                            @foreach($posts as $post)
+                                <div class="card mb-3 border-light">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $post->title }}</h5>
+                                        <p class="card-subtitle mb-2 text-muted">By {{ optional($post->user)->name ?? 'Unknown' }}</p>
+                                        <p class="card-text">{{ $post->body }}</p>
+                                        <div class="d-flex gap-2">
+                                            <a href="/edit-post/{{ $post->id }}" class="btn btn-sm btn-warning">Edit</a>
+                                            <form action="/delete-post/{{ $post->id }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this post?');" class="m-0">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="alert alert-info" role="alert">
+                                No posts found. Create your first post above!
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     @else
     
     <!-- If user is not authenticated -->
-    <div style="text-align: center; border: 2px solid black;">
-        <h1>Welcome to Laravel</h1>
-        <form action="/register" method="POST">
-            @csrf
-            <input type="text" name="name" placeholder="Enter your name">
-            <input type="email" name="email" placeholder="Enter your email">
-            <input type="password" name="password" placeholder="Enter your password">
-            <button type="submit">Register</button>
-        </form>
-    </div>
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-md-6 mx-auto mb-5">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="card-title mb-0">Register</h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="/register" method="POST">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="reg-name" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="reg-name" name="name" placeholder="Enter your name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="reg-email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="reg-email" name="email" placeholder="Enter your email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="reg-password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="reg-password" name="password" placeholder="Enter your password" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Register</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
-    <div style="text-align: center; border: 2px solid black;">
-        <h1>Login</h1>
-        <form action="/login" method="POST">
-            @csrf
-            <input type="text" name="loginname" placeholder="Enter your name">
-            <input type="password" name="loginpassword" placeholder="Enter your password">
-            <button type="submit">Login</button>
-        </form>
+            <div class="col-md-6 mx-auto">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h3 class="card-title mb-0">Login</h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="/login" method="POST">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="login-name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="login-name" name="loginname" placeholder="Enter your name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="login-password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="login-password" name="loginpassword" placeholder="Enter your password" required>
+                            </div>
+                            <button type="submit" class="btn btn-success w-100">Login</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     @endauth 
     <!-- End authentication check -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
