@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    @auth 
+    @auth
     <!-- Check if user is authenticated -->
     <nav class="navbar navbar-dark bg-dark">
         <div class="container-fluid">
@@ -32,14 +32,24 @@
                     </div>
                     <div class="card-body">
                         <form action="/create-post" method="POST">
-                            @csrf 
+                            @csrf
                             <div class="mb-3">
                                 <label for="title" class="form-label">Title</label>
-                                <input type="text" class="form-control" id="title" name="title" placeholder="Enter post title" required>
+                                <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" placeholder="Enter post title" value="{{ old('title') }}" required>
+                                @error('title')
+                                    <div class="invalid-feedback d-block">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="body" class="form-label">Content</label>
-                                <textarea class="form-control" id="body" name="body" rows="4" placeholder="Enter post content" required></textarea>
+                                <textarea class="form-control @error('body') is-invalid @enderror" id="body" name="body" rows="4" placeholder="Enter post content" required>{{ old('body') }}</textarea>
+                                @error('body')
+                                    <div class="invalid-feedback d-block">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <button type="submit" class="btn btn-primary">Create Record</button>
                         </form>
@@ -85,7 +95,7 @@
     </div>
 
     @else
-    
+
     <!-- If user is not authenticated -->
     <div class="container py-5">
         <div class="row">
@@ -99,15 +109,30 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="reg-name" class="form-label">Full Name</label>
-                                <input type="text" class="form-control" id="reg-name" name="name" placeholder="Enter your name" required>
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="reg-name" name="name" placeholder="Enter your name" value="{{ old('name') }}" required>
+                                @error('name')
+                                    <div class="invalid-feedback d-block">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="reg-email" class="form-label">Email Address</label>
-                                <input type="email" class="form-control" id="reg-email" name="email" placeholder="Enter your email" required>
+                                <input type="email" class="form-control @error('email') is-invalid @enderror" id="reg-email" name="email" placeholder="Enter your email" value="{{ old('email') }}" required>
+                                @error('email')
+                                    <div class="invalid-feedback d-block">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="reg-password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="reg-password" name="password" placeholder="Enter your password" required>
+                                <input type="password" class="form-control @error('password') is-invalid @enderror" id="reg-password" name="password" placeholder="Enter your password" required>
+                                @error('password')
+                                    <div class="invalid-feedback d-block">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <button type="submit" class="btn btn-primary w-100">Register</button>
                         </form>
@@ -121,15 +146,31 @@
                         <h3 class="card-title mb-0">Login</h3>
                     </div>
                     <div class="card-body">
+                        @if($errors->has('loginname'))
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ $errors->first('loginname') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        @endif
                         <form action="/login" method="POST">
                             @csrf
                             <div class="mb-3">
                                 <label for="login-name" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="login-name" name="loginname" placeholder="Enter your name" required>
+                                <input type="text" class="form-control @error('loginname') is-invalid @enderror" id="login-name" name="loginname" placeholder="Enter your name" value="{{ old('loginname') }}" required>
+                                @error('loginname')
+                                    <div class="invalid-feedback d-block">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="login-password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="login-password" name="loginpassword" placeholder="Enter your password" required>
+                                <input type="password" class="form-control @error('loginpassword') is-invalid @enderror" id="login-password" name="loginpassword" placeholder="Enter your password" required>
+                                @error('loginpassword')
+                                    <div class="invalid-feedback d-block">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <button type="submit" class="btn btn-success w-100">Login</button>
                         </form>
@@ -138,7 +179,7 @@
             </div>
         </div>
     </div>
-    @endauth 
+    @endauth
     <!-- End authentication check -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

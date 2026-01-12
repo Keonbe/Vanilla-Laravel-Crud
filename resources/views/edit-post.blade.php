@@ -21,12 +21,22 @@
 
                             <div class="mb-3">
                                 <label for="title" class="form-label">Title</label>
-                                <input type="text" class="form-control" id="title" name="title" value="{{ old('title', $post->title) }}" required>
+                                <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{ old('title', $post->title) }}" required>
+                                @error('title')
+                                    <div class="invalid-feedback d-block">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
 
                             <div class="mb-3">
                                 <label for="body" class="form-label">Content</label>
-                                <textarea class="form-control" id="body" name="body" rows="6" required>{{ old('body', $post->body) }}</textarea>
+                                <textarea class="form-control @error('body') is-invalid @enderror" id="body" name="body" rows="6" required>{{ old('body', $post->body) }}</textarea>
+                                @error('body')
+                                    <div class="invalid-feedback d-block">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
 
                             <div class="d-flex gap-2">
