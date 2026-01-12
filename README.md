@@ -2,6 +2,14 @@
 
 A complete **User Authentication & Post Management** system built with Laravel 12. This project demonstrates core Laravel concepts including database migrations, Eloquent ORM relationships, form validation, authentication, and authorization.
 
+> Note: I followed this YouTube tutorial while learning Laravel as a beginner.
+
+> [![Watch the tutorial on YouTube](https://img.youtube.com/vi/cDEVWbz2PpQ/hqdefault.jpg)](https://www.youtube.com/watch?v=cDEVWbz2PpQ)
+
+<!--
+<iframe width="560" height="315" src="https://www.youtube.com/embed/cDEVWbz2PpQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+-->
+
 ## 📋 Project Overview
 
 This is a fully functional CRUD (Create, Read, Update, Delete) application that allows users to:

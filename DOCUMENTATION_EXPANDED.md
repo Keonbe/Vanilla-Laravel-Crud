@@ -76,8 +76,8 @@ DB_DATABASE=laravel
 DB_USERNAME=root
 DB_PASSWORD=
 
-SESSION_DRIVER=database
-CACHE_STORE=database
+SESSION_DRIVER=file
+CACHE_STORE=file
 QUEUE_CONNECTION=database
 ```
 
@@ -86,9 +86,16 @@ QUEUE_CONNECTION=database
 - **DB_HOST/PORT**: Connects to local MySQL server on port 3306
 - **DB_DATABASE**: Creates/uses database named `laravel`
 - **DB_USERNAME/PASSWORD**: MySQL credentials (root with no password)
-- **SESSION_DRIVER**: Stores sessions in the database (not files)
-- **CACHE_STORE**: Uses database for caching
+- **SESSION_DRIVER**: Stores sessions in files (not database) - requires no sessions table migration
+- **CACHE_STORE**: Uses file-based caching (not database) - simple and effective for development
 - **QUEUE_CONNECTION**: Uses database for job queues
+
+### Important: 419 Page Expired Error Fix
+If you encounter a **419 Page Expired** token error when logging in:
+- **Cause**: SESSION_DRIVER was set to `database` but the sessions table was not migrated
+- **Solution**: Change `SESSION_DRIVER=database` to `SESSION_DRIVER=file` (as shown above)
+- **Alternative**: Run `php artisan session:table && php artisan migrate` to create the sessions table instead
+- **Why**: File-based sessions are simpler for development and don't require additional database tables
 
 ---
 
