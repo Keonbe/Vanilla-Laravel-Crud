@@ -239,7 +239,3 @@ This project is designed as a **learning resource** for understanding:
 - Blade templating engine
 
 Each file contains inline comments explaining the purpose and logic. Refer to [DOCUMENTATION_EXPANDED.md](DOCUMENTATION_EXPANDED.md) for deep dives into each component.
-
-## 📝 License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
